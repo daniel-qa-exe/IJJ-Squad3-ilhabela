@@ -1,16 +1,5 @@
-"""
-logica funcional 
+#aula de 19/06/24
 
-input operador
-input numero 1 
-input numero 2
-
-match case pra fazer a comparação desse input 
-
-cases com a operação
-    o calculo com o retorno
-
-"""
 print("Calculadora simples, calcule soma ,subtração, multiplicação ou divisão")
 operador = input("Escolha uma operação (+, -, *, /): ")
 numero1 = int(input("Digite o primeiro numero: "))
