@@ -1,0 +1,5 @@
+✔ biblioteca requests @done(24-07-02 16:42)
+✔ validação de dados do cep @done(24-07-02 17:30)
+✔ integração com o via cep para retorno de região @done(24-07-02 17:04)
+✔ condicionamento de região @done(24-07-02 17:30)
+✔ listar uf pro região para validar com o via cep @done(24-07-02 17:30)
