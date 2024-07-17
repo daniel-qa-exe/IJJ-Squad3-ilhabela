@@ -4,46 +4,45 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import time
 
-browser = Firefox()
+def inicia_navegador():
+    return Firefox()
 
-url = 'https://google.com'
-browser.get(url)
+def pesquisa_google(browser, pesquisa):
+    url = 'https://google.com'
+    browser.get(url)
+    input_area = browser.find_element(By.NAME, "q")
+    input_area.send_keys(pesquisa)
+    input_area.send_keys(Keys.ENTER)
+    time.sleep(5)
+    
 
-input_area = browser.find_element(By.NAME, "q")
-input_area.send_keys('Instituto Joga Junto')
-input_area.send_keys(Keys.ENTER)
+def click_resultado(browser, txt_padrao):
+    result_search = browser.find_elements(By.TAG_NAME, 'h3')
+    for result in result_search:
+        if txt_padrao in result.text:
+            result.click()
+        break
+def assert_pagina(browser,titulo_padrao):
+    title = browser.title
+    assert titulo_padrao in title, "Página incorreta na busca"
 
-time.sleep(5) 
-
-result_search = browser.find_elements(By.TAG_NAME, 'h3')
-
-for result in result_search:
-    if 'Instituto Joga Junto' in result.text:
-        result.click()
-    break
-
-title = browser.title
-assert 'Instituto Joga Junto' in title, "Página incorreta na busca"
-
-def Formulario(nome,email,assunto,mensagem):
-    input_nome = browser.find_element(By.ID, "nome")
-    input_nome.send_keys(nome)
-
-    input_email = browser.find_element(By.ID, "email")
-    input_email.send_keys(email)
-
+def Formulario(browser, nome, email, assunto, mensagem):
+    browser.find_element(By.ID, "nome").send_keys(nome)
+    browser.find_element(By.ID, "email").send_keys(email)
     input_assunto = browser.find_element(By.ID, "assunto")
     select = Select(input_assunto)
     select.select_by_visible_text(assunto)
+    browser.find_element(By.ID, "mensagem").send_keys(mensagem)
 
-    input_msg = browser.find_element(By.ID, "mensagem")
-    input_msg.send_keys(mensagem)
+def submit_form(browser):
+    button_enviar = browser.find_element(By.XPATH, "/html/body/div[1]/div[2]/section[8]/div[1]/form/button")
+    button_enviar.submit()
 
-Formulario("Daniel de Araujo Santana","daniel.xdkk@gmal.com","Ser facilitador","Funções foram adicionadas no codigo - Hermes Quality")
-
-button_enviar = browser.find_element(By.XPATH, "/html/body/div[1]/div[2]/section[8]/div[1]/form/button")
-button_enviar.click()
-
-time.sleep(10)
-
+browser = inicia_navegador()
+pesquisa_google(browser, 'Instituto Joga Junto')
+click_resultado(browser,'Instituto Joga Junto')
+assert_pagina(browser,'Instituto Joga Junto')
+Formulario(browser,"Daniel de Araujo Santana","daniel.xdkk@gmail.com","Ser facilitador","Funções foram adicionadas no codigo - Hermes Quality")
+submit_form(browser)
+time.sleep(7)
 browser.quit()
